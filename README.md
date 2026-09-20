@@ -274,6 +274,59 @@ El comando de instalación utilizado es:
 
 ```bash
 pip install -r requirements.txt
+```
+
+El comando de inicio utilizado es:
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+Se configuró `/health` como Health Check Path para verificar que la aplicación esté activa y que el modelo haya sido cargado correctamente.
+
+La versión de Python utilizada en Render se fija mediante la variable de entorno:
+
+```text
+PYTHON_VERSION=3.11.16
+```
+
+De esta forma, el entorno desplegado utiliza la misma versión de Python empleada durante el entrenamiento y las pruebas locales.
+
+### Despliegue continuo
+
+Render está conectado directamente con GitHub y tiene habilitada la opción `Auto-Deploy: On Commit`.
+
+Cada nuevo commit enviado a la rama `main` genera automáticamente una nueva construcción y despliegue del servicio.
+
+Este comportamiento fue verificado con el commit `fae8209`, correspondiente a la incorporación del endpoint raíz de la API. Después del `push` a GitHub, Render ejecutó automáticamente un nuevo despliegue y dejó nuevamente el servicio en estado `Live`.
+
+### Ajustes realizados durante el despliegue
+
+Durante la configuración se definió `/health` como ruta de verificación del servicio, ya que este endpoint permite confirmar tanto el funcionamiento de la API como la carga correcta del modelo.
+
+También se fijó explícitamente Python 3.11.16 mediante la variable `PYTHON_VERSION` para mantener consistencia entre el entorno local y el entorno desplegado.
+
+Finalmente, se agregó un endpoint raíz `/` para que la URL principal de la API entregue una respuesta informativa en lugar de un error 404.
+
+### Verificación pública
+
+El funcionamiento del servicio puede comprobarse mediante:
+
+```bash
+curl https://cc-fastapi-churn.onrender.com/health
+```
+
+Respuesta obtenida:
+
+```json
+{
+  "status": "ok",
+  "model_loaded": true,
+  "model_version": "1.0.0"
+}
+```
+
+También se verificó el endpoint `/predict` desde la URL pública, obteniendo la misma predicción y probabilidad que en la ejecución local.
 
 ## Autor
 
