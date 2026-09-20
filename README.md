@@ -243,6 +243,17 @@ Las evidencias de ejecución local se encuentran en la carpeta `docs/`.
 
 ![Predict 422](docs/predict_422.png)
 
+### Evidencias del despliegue
+
+#### Auto-Deploy en Render
+
+![Render Auto-Deploy](docs/render_autodeploy.png)
+
+#### Swagger público
+
+![Swagger Render](docs/render_docs.png)
+
+
 ## Despliegue en la nube
 
 La API fue desplegada como un Web Service en Render.
@@ -257,7 +268,7 @@ https://cc-fastapi-churn.onrender.com/docs
 
 ### Configuración
 
-El servicio se conecta directamente al repositorio de GitHub y utiliza la rama `main`.
+El servicio está conectado directamente al repositorio de GitHub y utiliza la rama `main`.
 
 El comando de instalación utilizado es:
 
