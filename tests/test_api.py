@@ -127,3 +127,18 @@ def test_predict_invalid_input():
         )
 
     assert response.status_code == 422
+
+
+def test_predict_batch_invalid_input():
+    invalid_observation = {
+        **VALID_OBSERVATION,
+        "MonthlyCharges": -10,
+    }
+
+    with TestClient(app) as client:
+        response = client.post(
+            "/predict-batch",
+            json=[VALID_OBSERVATION, invalid_observation],
+        )
+
+    assert response.status_code == 422
