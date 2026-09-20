@@ -47,6 +47,14 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+@app.get("/")
+def root():
+    return {
+        "message": "Telco Customer Churn API",
+        "status": "ok",
+        "docs": "/docs",
+        "health": "/health"
+    }
 
 @app.get(
     "/health",
