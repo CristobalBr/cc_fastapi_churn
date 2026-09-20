@@ -24,7 +24,7 @@ El análisis exploratorio se encuentra en `notebooks/exploracion.ipynb`.
 
 ## Preparación y modelo
 
-Durante la exploración se detectaron 11 valores vacíos en `TotalCharges`. Esta variable se convierte a formato numérico antes del entrenamiento.
+Durante la exploración se detectaron 11 valores vacíos en `TotalCharges`. Al cargar la base, estos espacios se interpretan como valores faltantes (`NaN`), que posteriormente son tratados dentro del pipeline de preprocesamiento.
 
 El preprocesamiento considera:
 

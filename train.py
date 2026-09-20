@@ -64,14 +64,9 @@ CATEGORICAL_FEATURES = [
 FEATURES = NUMERIC_FEATURES + CATEGORICAL_FEATURES
 
 
-# Carga de datos
-df = pd.read_csv(DATA_PATH)
-
-
-# Conversión de TotalCharges a numérico
-df["TotalCharges"] = pd.to_numeric(
-    df["TotalCharges"],
-    errors="coerce"
+df = pd.read_csv(
+    DATA_PATH,
+    na_values=[" "]
 )
 
 
