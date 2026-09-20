@@ -36,6 +36,8 @@ El preprocesamiento considera:
 
 El preprocesamiento y el modelo se integran en un único `Pipeline` de scikit-learn.
 
+La imputación y el escalado se realizan dentro del pipeline para que las transformaciones se ajusten utilizando únicamente los datos de entrenamiento. Para las variables numéricas se utiliza la mediana, ya que es una medida robusta frente a valores extremos. Además, se aplica `StandardScaler` para trabajar las variables numéricas en una escala comparable antes de ajustar la regresión logística.
+
 El modelo utilizado es una regresión logística (`LogisticRegression`).
 
 La base se divide en 80% entrenamiento y 20% prueba, utilizando `random_state=42` y una separación estratificada según `Churn`.
@@ -43,14 +45,18 @@ La base se divide en 80% entrenamiento y 20% prueba, utilizando `random_state=42
 Resultados obtenidos:
 
 | Métrica | Resultado |
-|---|---:|
+|  ----   |   ----   |
 | Accuracy | 0.8055 |
 | Precision | 0.6572 |
 | Recall | 0.5588 |
 | F1 | 0.6040 |
 | ROC-AUC | 0.8419 |
 
-Debido al desbalance de la variable objetivo, la evaluación no se basa únicamente en accuracy.
+El modelo alcanza un accuracy de 80,55% y un ROC-AUC de 0,8419. Debido al desbalance de la variable objetivo, el accuracy no se interpreta de forma aislada.
+
+El recall de 0,5588 indica que, con el umbral de clasificación utilizado, el modelo identifica aproximadamente el 55,9% de los clientes que efectivamente presentan churn. Por otro lado, la precision de 0,6572 indica que aproximadamente el 65,7% de los clientes clasificados como churn corresponden efectivamente a esa clase.
+
+Se utilizó una regresión logística porque permite mantener un modelo simple y reproducible, adecuado para el objetivo principal del trabajo: implementar correctamente el flujo desde el entrenamiento hasta el servicio de inferencia.
 
 El pipeline entrenado se guarda en `model/model.pkl` y sus metadatos en `model/metadata.json`.
 
@@ -164,7 +170,7 @@ Ejemplo de entrada:
 }
 ```
 
-Ejemplo de respuesta obtenida:
+Ejemplo de respuesta (campos principales):
 
 ```json
 {
@@ -173,6 +179,7 @@ Ejemplo de respuesta obtenida:
   "model_version": "1.0.0"
 }
 ```
+La respuesta incluye además una marca de tiempo (`timestamp`) en UTC.
 
 ### POST `/predict-batch`
 
@@ -209,7 +216,7 @@ tests/test_api.py::test_predict PASSED
 tests/test_api.py::test_predict_batch PASSED
 tests/test_api.py::test_predict_invalid_input PASSED
 
-4 passed
+4 passed, 1 warning
 ```
 
 ## Evidencias
