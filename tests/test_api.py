@@ -39,6 +39,25 @@ def test_health():
     assert data["model_version"] == "1.0.0"
 
 
+def test_model_info():
+    with TestClient(app) as client:
+        response = client.get("/model-info")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["model_type"] == "LogisticRegression"
+    assert data["model_version"] == "1.0.0"
+    assert data["python_version"] == "3.11.16"
+    assert data["sklearn_version"] == "1.5.2"
+    assert data["target"] == "Churn"
+    assert data["positive_class"] == "Yes"
+    assert len(data["features"]) == 19
+    assert "accuracy" in data["metrics"]
+    assert "roc_auc" in data["metrics"]
+
+
 def test_predict():
     with TestClient(app) as client:
         response = client.post(
