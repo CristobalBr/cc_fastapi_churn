@@ -4,6 +4,10 @@ Proyecto desarrollado para la asignatura **Cloud Computing para Data Science** d
 
 El objetivo del proyecto es entrenar un modelo de clasificación para predecir el abandono de clientes (`Churn`) y disponibilizarlo mediante una API construida con FastAPI.
 
+**API desplegada:** https://cc-fastapi-churn.onrender.com
+
+**Documentación Swagger:** https://cc-fastapi-churn.onrender.com/docs
+
 ## Dataset
 
 Se utiliza el dataset público **IBM Telco Customer Churn**.
@@ -239,15 +243,26 @@ Las evidencias de ejecución local se encuentran en la carpeta `docs/`.
 
 ![Predict 422](docs/predict_422.png)
 
-## Despliegue
+## Despliegue en la nube
 
-El proyecto incluye un `Procfile` con el comando:
+La API fue desplegada como un Web Service en Render.
 
-```text
-web: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-```
+URL pública:
 
-De esta forma el puerto puede ser asignado por la plataforma utilizada para un eventual despliegue.
+https://cc-fastapi-churn.onrender.com
+
+Documentación Swagger:
+
+https://cc-fastapi-churn.onrender.com/docs
+
+### Configuración
+
+El servicio se conecta directamente al repositorio de GitHub y utiliza la rama `main`.
+
+El comando de instalación utilizado es:
+
+```bash
+pip install -r requirements.txt
 
 ## Autor
 
