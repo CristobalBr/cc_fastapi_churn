@@ -207,21 +207,29 @@ python -m pytest -v
 
 Las pruebas verifican:
 
+- funcionamiento del endpoint raíz `/`;
 - funcionamiento de `/health`;
+- información del modelo mediante `/model-info`;
 - predicción individual;
 - predicción por lote;
-- validación de una entrada incorrecta.
+- validación de una entrada incorrecta;
+- validación de una entrada incorrecta dentro de un lote.
 
 Resultado obtenido:
 
 ```text
+tests/test_api.py::test_root PASSED
 tests/test_api.py::test_health PASSED
+tests/test_api.py::test_model_info PASSED
 tests/test_api.py::test_predict PASSED
 tests/test_api.py::test_predict_batch PASSED
 tests/test_api.py::test_predict_invalid_input PASSED
+tests/test_api.py::test_predict_batch_invalid_input PASSED
 
-4 passed, 1 warning
+7 passed, 1 warning in 3.69s
 ```
+
+Validación realizada en Windows con Python 3.11.7 y scikit-learn 1.5.2. Se utilizó una carpeta temporal para la caché de pytest mediante `-o "cache_dir=$env:TEMP\codex-churn-pytest-cache"` debido a los permisos de la caché local. La advertencia corresponde a una deprecación de AnyIO utilizada por Starlette.
 
 ## Evidencias
 
@@ -328,6 +336,8 @@ Respuesta obtenida:
 
 También se verificó el endpoint `/predict` desde la URL pública, obteniendo la misma predicción y probabilidad que en la ejecución local.
 
-## Autor
+## Integrantes
 
-Cristóbal Bravo
+- Cristóbal Bravo
+- José Manuel García
+- Priscila Valdés

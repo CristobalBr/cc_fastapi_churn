@@ -26,6 +26,20 @@ VALID_OBSERVATION = {
 }
 
 
+def test_root():
+    with TestClient(app) as client:
+        response = client.get("/")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["message"] == "Telco Customer Churn API"
+    assert data["status"] == "ok"
+    assert data["docs"] == "/docs"
+    assert data["health"] == "/health"
+
+
 def test_health():
     with TestClient(app) as client:
         response = client.get("/health")
