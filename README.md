@@ -226,10 +226,10 @@ tests/test_api.py::test_predict_batch PASSED
 tests/test_api.py::test_predict_invalid_input PASSED
 tests/test_api.py::test_predict_batch_invalid_input PASSED
 
-7 passed, 1 warning in 3.69s
+7 passed, 1 warning in 1.38s
 ```
 
-Validación realizada en Windows con Python 3.11.7 y scikit-learn 1.5.2. Se utilizó una carpeta temporal para la caché de pytest mediante `-o "cache_dir=$env:TEMP\codex-churn-pytest-cache"` debido a los permisos de la caché local. La advertencia corresponde a una deprecación de AnyIO utilizada por Starlette.
+Validación final realizada en macOS con Python 3.11.16 y scikit-learn 1.5.2. La advertencia corresponde a una deprecación de AnyIO utilizada por Starlette.
 
 ## Evidencias
 
@@ -308,13 +308,11 @@ Cada nuevo commit enviado a la rama `main` genera automáticamente una nueva con
 
 Este comportamiento fue verificado con el commit `fae8209`, correspondiente a la incorporación del endpoint raíz de la API. Después del `push` a GitHub, Render ejecutó automáticamente un nuevo despliegue y dejó nuevamente el servicio en estado `Live`.
 
-### Ajustes realizados durante el despliegue
+### Problema encontrado durante el despliegue y solución
 
-Durante la configuración se definió `/health` como ruta de verificación del servicio, ya que este endpoint permite confirmar tanto el funcionamiento de la API como la carga correcta del modelo.
+Durante la verificación inicial del servicio desplegado, la URL raíz (`/`) respondía con un error 404 porque la API no tenía un endpoint definido para esa ruta. Como solución, se agregó un endpoint raíz `GET /` que entrega información básica del servicio y referencias a `/docs` y `/health`.
 
-También se fijó explícitamente Python 3.11.16 mediante la variable `PYTHON_VERSION` para mantener consistencia entre el entorno local y el entorno desplegado.
-
-Finalmente, se agregó un endpoint raíz `/` para que la URL principal de la API entregue una respuesta informativa en lugar de un error 404.
+Además, se configuró `/health` como ruta de verificación del servicio, ya que permite confirmar tanto el funcionamiento de la API como la carga correcta del modelo. También se fijó explícitamente Python 3.11.16 mediante la variable `PYTHON_VERSION` para mantener consistencia entre el entorno local y el entorno desplegado.
 
 ### Verificación pública
 
